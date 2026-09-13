@@ -1,0 +1,42 @@
+from collections import defaultdict
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        ## DFS SOLUTION
+        # # always take an available node
+        # # go as deep as possible
+        # # return once no more edges left
+
+        # # ordereing in desc gives us ability to get the smallest edge at O(1)
+        # # with only caveat being we build answer back to front
+        # # but still pick the smallest edge
+        # adj = defaultdict(list)
+        # for src, dst in sorted(tickets)[::-1]:
+        #     adj[src].append(dst)
+        
+        # ans = []
+        # def dfs(node: int):
+        #     while adj[node]:
+        #         dfs(adj[node].pop())
+        #     ans.append(node)
+        
+        # dfs("JFK")
+        # return ans[::-1]
+
+        # # STACK solution
+        n = len(tickets)
+        adj = defaultdict(list)
+        for u, v in sorted(tickets)[::-1]:
+            adj[u].append(v)
+
+        stack = ["JFK"]
+        ans = []
+        while stack:
+            node = stack[-1]
+            if adj[node]:
+                stack.append(adj[node].pop())
+            else:
+                ans.append(stack.pop())
+
+        return ans[::-1]
+
+            
